@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EmojiTableViewController: UITableViewController {
+class EmojiTableViewController: UITableViewController { 
 
     var objects = [
         Emoji(emoji: "🥰", name: "Love", description: "Let's love each other", isFavorite: false),
@@ -20,6 +20,16 @@ class EmojiTableViewController: UITableViewController {
         
         self.title = "Emoji Reader"
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+    }
+    
+    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+        guard segue.identifier == "saveSegue" else { return }
+        let sourceVC = segue.source as! NewEmojiTableViewController
+        let emoji = sourceVC.emoji
+        
+        let newIndexPath = IndexPath(row: objects.count, section: 0)
+        objects.append(emoji)
+        tableView.insertRows(at: [newIndexPath], with: .fade)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
